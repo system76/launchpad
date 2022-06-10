@@ -35,7 +35,7 @@ DATA_BITS = serial.EIGHTBITS
 STOP_BITS = serial.STOPBITS_ONE
 TIMEOUT = 30
 
-def enc(self, data:str) -> bytes:
+def enc(data:str) -> bytes:
     """
     Returns input data encoded as bytes compatible with GRBL/Serial/Selma.
 
