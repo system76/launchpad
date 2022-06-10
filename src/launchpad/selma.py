@@ -78,6 +78,11 @@ class Selma:
         self.port_open = self.serial_port.is_open
         return self.port_open
     
+    def e_stop(self) -> bool:
+        """ E-Stop """
+        stop_data = enc(data.e_stop_command)
+        self.serial_port.write(stop_data)
+    
     def start_test(self) -> bool:
         """
         Start running a test.
