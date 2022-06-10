@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: launchpad
+Version: 0.1
+Summary: A small package to send a g-code file to a universal G-Code sender
+Home-page: https://github.com/isantop/launchpad
+Author: Ian Santopietro
+Author-email: isantop@gmail.com
+License: UNKNOWN
+Project-URL: Bug Tracker, https://github.com/isantop/launchpad/issues
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+## Launchpad
+
+A small utility to send Gcode files through a serial port to a universal Gcode 
+sender. Originally developed to aid in QC testing System76 Launch keyboards.
+
