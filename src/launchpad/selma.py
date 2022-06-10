@@ -78,10 +78,33 @@ class Selma:
         self.port_open = self.serial_port.is_open
         return self.port_open
     
+    def close_port(self) -> bool:
+        """ Close the port"""
+        try:
+            self.serial_port.close()
+        except serial.SerialException:
+            return True
+        self.port_open = self.serial_port.is_open
+        return self.port_open
+    
+    def send(self, data:str) -> bool:
+        """ Send data over serial"""
+        b_data = enc(data)
+        self.serial_port.write(b_data)
+        return True
+
     def e_stop(self) -> bool:
         """ E-Stop """
-        stop_data = enc(data.e_stop_command)
-        self.serial_port.write(stop_data)
+        self.send(data.e_stop_command)
+        self.send(data.reset_command)
+
+    def home_axes(self) -> bool:
+        """ Perform a "Homing" cycle.
+        
+        Note: because of how Selma is set up, this doesn't actually Home anything.
+        """
+        self.send(data.zero_x_command)
+        self.send(data.zero_y_command)
     
     def start_test(self) -> bool:
         """
@@ -90,7 +113,7 @@ class Selma:
         Returns `True` if successfully started
         """
         if not self.port_open:
-            self.open_port()
+            return False
         
         test_data = enc(data.launch_lite_testing_code)
         

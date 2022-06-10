@@ -44,11 +44,14 @@ Y307.
 X38.
 Y-307.
 Y307.
+M5
 G90
 X-197. 
-M5
 
 M30
 """
 
 e_stop_command:str = '\x18'
+reset_command:str = '#X'
+zero_x_command:str 'G10 P0 L20 X0'
+zero_y_command:str 'G10 P0 L20 Y0'
