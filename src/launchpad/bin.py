@@ -27,12 +27,12 @@ SOFTWARE.
 import subprocess
 from pathlib import Path
 
-from .gui import LaunchpadWindow
+from . import gui
 from . import data
 
 def run():
-    win = LaunchpadWindow()
-    Gtk.main()
+    win = gui.LaunchpadWindow()
+    gui.Gtk.main()
 
 def setup():
     desktop_path = Path(
