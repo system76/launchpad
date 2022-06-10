@@ -95,9 +95,11 @@ class Selma:
 
     def e_stop(self) -> bool:
         """ E-Stop """
-        self.send(data.feed_stop_command)
-        self.send(data.air_stop_command)
         self.send(data.e_stop_command)
+        self.send(data.reset_command)
+    
+    def reset(self) -> None:
+        self.send(data.reset_command)
 
     def home_axes(self) -> bool:
         """ Perform a "Homing" cycle.

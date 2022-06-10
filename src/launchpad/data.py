@@ -53,5 +53,5 @@ M30
 feed_stop_command:str = '!\n'
 air_stop_command:str = 'M5\n'
 e_stop_command:str = '\x18'
-reset_command:str = '#X\n'
+reset_command:str = '$X\n'
 zero_command:str = 'G10 L20 X0 Y0 Z0\n'

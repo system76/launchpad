@@ -86,6 +86,10 @@ class LaunchpadWindow(Gtk.Window):
 
         layout_grid.attach(estop_button, 0, 4, 2, 1)
 
+        reset_button = Gtk.Button.new_with_label('RESET')
+        reset_button.connect('clicked', self.do_reset)
+        layout_grid.attach(reset_button, 0, 5, 2, 1)
+
         self.show_all()
 
         launch_button.connect('clicked', self.do_test, data.launch_testing_code)
@@ -98,6 +102,9 @@ class LaunchpadWindow(Gtk.Window):
     
     def do_estop(self, widget):
         self.selma.e_stop()
+    
+    def do_reset(self, widget):
+        self.selma.reset()
 
     def toggle_connection(self, widget):
         if self.selma.port_open:
@@ -106,10 +113,12 @@ class LaunchpadWindow(Gtk.Window):
             self.selma.open_port()
         
         if self.selma.port_open:
+            widget.set_label("Disconnect")
             self.status_text.set_label(
                 f'Connected to port {self.selma.serial_port.port}'
             )
         else:
+            widget.set_label("Connect")
             self.status_text.set_label('Disconnected')
 
 def run():
