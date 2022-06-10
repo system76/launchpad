@@ -35,7 +35,7 @@ DATA_BITS = serial.EIGHTBITS
 STOP_BITS = serial.STOPBITS_ONE
 TIMEOUT = 30
 
-def enc(self, data:str) -> bytes:
+def enc(data:str) -> bytes:
     """
     Returns input data encoded as bytes compatible with GRBL/Serial/Selma.
 
@@ -78,15 +78,43 @@ class Selma:
         self.port_open = self.serial_port.is_open
         return self.port_open
     
-    def start_test(self) -> bool:
+    def close_port(self) -> bool:
+        """ Close the port"""
+        try:
+            self.serial_port.close()
+        except serial.SerialException:
+            return True
+        self.port_open = self.serial_port.is_open
+        return self.port_open
+    
+    def send(self, data:str) -> bool:
+        """ Send data over serial"""
+        b_data = enc(data)
+        self.serial_port.write(b_data)
+        return True
+
+    def e_stop(self) -> bool:
+        """ E-Stop """
+        self.send(data.e_stop_command)
+        self.send(data.reset_command)
+
+    def home_axes(self) -> bool:
+        """ Perform a "Homing" cycle.
+        
+        Note: because of how Selma is set up, this doesn't actually Home anything.
+        Instead we're setting the reference 0
+        """
+        self.send(data.zero_x_command)
+        self.send(data.zero_y_command)
+    
+    def start_test(self, test_data:str) -> bool:
         """
         Start running a test.
         
         Returns `True` if successfully started
         """
         if not self.port_open:
-            self.open_port()
+            return False
         
-        test_data = enc(data.launch_lite_testing_code)
-        
-        self.serial_port.write(test_data)
+        self.home_axes()
+        self.send(test_data)

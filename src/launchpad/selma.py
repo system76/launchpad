@@ -102,11 +102,11 @@ class Selma:
         """ Perform a "Homing" cycle.
         
         Note: because of how Selma is set up, this doesn't actually Home anything.
+        Instead we're setting the reference 0
         """
-        self.send(data.zero_x_command)
-        self.send(data.zero_y_command)
+        self.send(data.zero_command)
     
-    def start_test(self) -> bool:
+    def start_test(self, test_data:str) -> bool:
         """
         Start running a test.
         
@@ -115,6 +115,5 @@ class Selma:
         if not self.port_open:
             return False
         
-        test_data = enc(data.launch_lite_testing_code)
-        
-        self.serial_port.write(test_data)
+        self.home_axes()
+        self.send(test_data)

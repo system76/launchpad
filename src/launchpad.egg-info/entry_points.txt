@@ -1,0 +1,3 @@
+[console_scripts]
+launchpad = launchpad.gui:run
+

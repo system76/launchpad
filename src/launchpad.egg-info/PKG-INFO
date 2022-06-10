@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: launchpad
-Version: 0.1
+Version: 0.2
 Summary: A small package to send a g-code file to a universal G-Code sender
 Home-page: https://github.com/isantop/launchpad
 Author: Ian Santopietro

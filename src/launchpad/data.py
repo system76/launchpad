@@ -24,13 +24,12 @@ SOFTWARE.
 
 """
 
-launch_lite_testing_code = """
+launch_testing_code = """
 ((10\\1)
 (T2  D=3.175 CR=0 - ZMIN=4.182 - flat end mill)
 G90 G94
 G17
 G21
-
 S10000 M3
 (2D Contour8)
 G54
@@ -52,6 +51,5 @@ M30
 """
 
 e_stop_command:str = '\x18'
-reset_command:str = '#X'
-zero_x_command:str 'G10 P0 L20 X0'
-zero_y_command:str 'G10 P0 L20 Y0'
+reset_command:str = '#X\n'
+zero_command:str = 'G10 L20 X0 Y0 Z0\n'
