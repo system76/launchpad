@@ -30,6 +30,7 @@ launch_testing_code = """
 G90 G94
 G17
 G21
+
 S10000 M3
 (2D Contour8)
 G54
@@ -44,6 +45,7 @@ X38.
 Y-307.
 Y307.
 M5
+
 G90
 X-197. 
 M30
