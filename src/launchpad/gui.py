@@ -130,38 +130,3 @@ class LaunchpadWindow(Gtk.Window):
         else:
             widget.set_label("Connect")
             self.status_text.set_label('Disconnected')
-
-def run():
-    win = LaunchpadWindow()
-    Gtk.main()
-
-def setup():
-    desktop_path = Path(
-        Path.home(),
-        '.local',
-        'share',
-        'applications',
-        'com.system76.launchpad.desktop'
-    )
-    with open(desktop_path, mode='w') as desktop_file:
-        desktop_file.write(data.desktop_file)
-    
-    subprocess(
-        [
-            'pkexec',
-            'mv',
-            '/usr/lib/udev/rules.d/85-brltty.rules',
-            '/usr/lib/udev/rules.d/85-brltty.disabled'
-        ]
-    )
-
-    with open('/tmp/udevrule', mode='w') as udev_rule_file:
-        udev_rule_file.write(data.udev_rule)
-    subprocess.run(
-        [
-            'pkexec',
-            'cp',
-            '/tmp/udevrule',
-            '/usr/lib/udev/rules.d/'
-        ]
-    )
