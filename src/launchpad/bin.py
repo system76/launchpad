@@ -45,7 +45,7 @@ def setup():
     with open(desktop_path, mode='w') as desktop_file:
         desktop_file.write(data.desktop_file)
     
-    subprocess(
+    subprocess.run(
         [
             'pkexec',
             'mv',
