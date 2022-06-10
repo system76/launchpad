@@ -24,6 +24,21 @@ SOFTWARE.
 
 """
 
+udev_rule = """
+SUBSYSTEM=="tty", ATTRS:{product}=="USB2.0Serial", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE:="0666"
+"""
+
+desktop_file = """
+[Desktop Entry]
+Type=Application
+Name=Launchpad
+Exec=~/.local/bin/launchpad
+Terminal=false
+Icon=input-keyboard
+Categories=Utilities;
+
+"""
+
 launch_testing_code = """
 ((10\\1)
 (T2  D=3.175 CR=0 - ZMIN=4.182 - fl.//at end mill)

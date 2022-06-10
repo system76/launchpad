@@ -25,6 +25,9 @@ SOFTWARE.
 """
 
 import gi
+import subprocess
+
+from pathlib import Path
 
 gi.require_versions({
     'Gtk': '3.0',
@@ -131,3 +134,34 @@ class LaunchpadWindow(Gtk.Window):
 def run():
     win = LaunchpadWindow()
     Gtk.main()
+
+def setup():
+    desktop_path = Path(
+        Path.home(),
+        '.local',
+        'share',
+        'applications',
+        'com.system76.launchpad.desktop'
+    )
+    with open(desktop_path, mode='w') as desktop_file:
+        desktop_file.write(data.desktop_file)
+    
+    subprocess(
+        [
+            'pkexec',
+            'mv',
+            '/usr/lib/udev/rules.d/85-brltty.rules',
+            '/usr/lib/udev/rules.d/85-brltty.disabled'
+        ]
+    )
+
+    with open('/tmp/udevrule', mode='w') as udev_rule_file:
+        udev_rule_file.write(data.udev_rule)
+    subprocess.run(
+        [
+            'pkexec',
+            'cp',
+            '/tmp/udevrule',
+            '/usr/lib/udev/rules.d/'
+        ]
+    )
