@@ -88,7 +88,11 @@ class LaunchpadWindow(Gtk.Window):
 
         reset_button = Gtk.Button.new_with_label('RESET')
         reset_button.connect('clicked', self.do_reset)
-        layout_grid.attach(reset_button, 0, 5, 2, 1)
+        layout_grid.attach(reset_button, 0, 5, 1, 1)
+
+        reset_button = Gtk.Button.new_with_label('HOME')
+        reset_button.connect('clicked', self.do_reset)
+        layout_grid.attach(reset_button, 1, 5, 1, 1)
 
         self.show_all()
 
@@ -105,6 +109,9 @@ class LaunchpadWindow(Gtk.Window):
     
     def do_reset(self, widget):
         self.selma.reset()
+    
+    def do_home(self, widget):
+        self.selma.home_axes()
 
     def toggle_connection(self, widget):
         if self.selma.port_open:

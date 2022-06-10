@@ -26,7 +26,7 @@ SOFTWARE.
 
 launch_testing_code = """
 ((10\\1)
-(T2  D=3.175 CR=0 - ZMIN=4.182 - flat end mill)
+(T2  D=3.175 CR=0 - ZMIN=4.182 - fl.//at end mill)
 G90 G94
 G17
 G21
@@ -46,7 +46,6 @@ Y307.
 M5
 G90
 X-197. 
-
 M30
 """
 
