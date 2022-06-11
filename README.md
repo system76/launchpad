@@ -8,7 +8,7 @@ Launch keyboard QC tester.
 Easiest installation is via `pip` from git:
 
 ```shell
-pip3 install git+https://github.com/system76/launchpad
+sudo pip3 install git+https://github.com/system76/launchpad
 ```
 
 Afterwards, set up the udev rules and Desktop file:

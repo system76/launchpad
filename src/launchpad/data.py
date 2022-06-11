@@ -28,11 +28,10 @@ udev_rule = """
 SUBSYSTEM=="tty", ATTRS:{product}=="USB2.0Serial", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="7523", MODE:="0666"
 """
 
-desktop_file = """
-[Desktop Entry]
+desktop_file = """[Desktop Entry]
 Type=Application
 Name=Launchpad
-Exec=~/.local/bin/launchpad
+Exec=launchpad
 Terminal=false
 Icon=input-keyboard
 Categories=Utilities;
