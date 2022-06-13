@@ -64,3 +64,11 @@ def setup():
             '/usr/lib/udev/rules.d/'
         ]
     )
+    subprocess.run(
+        [
+            'pkexec',
+            'adduser',
+            'system76',
+            'dialout'
+        ]
+    )

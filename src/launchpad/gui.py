@@ -142,6 +142,7 @@ class LaunchpadWindow(Gtk.Window):
     def toggle_connection(self, widget):
         if self.selma.port_open:
             self.selma.close_port()
+            return
         else:
             self.selma.open_port()
         
