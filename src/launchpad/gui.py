@@ -35,6 +35,7 @@ gi.require_versions({
 
 from gi.repository import Gtk
 
+from .__version__ import launchpad_version
 from .selma import Selma
 from . import data
 
@@ -46,7 +47,7 @@ class LaunchpadWindow(Gtk.Window):
         self.connect('destroy', Gtk.main_quit)
 
         self.selma = Selma()
-        self.set_title("Launchpad")
+        self.set_title(f'Launchpad v{launchpad_version}')
         
         layout_grid = Gtk.Grid()
         layout_grid.props.margin = 36
