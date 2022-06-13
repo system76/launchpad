@@ -24,4 +24,4 @@ SOFTWARE.
 
 """
 
-launchpad_version = '0.4'
+launchpad_version = '0.5'

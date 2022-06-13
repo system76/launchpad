@@ -56,13 +56,14 @@ class LaunchpadWindow(Gtk.Window):
         layout_grid.set_column_homogeneous(True)
         self.add(layout_grid)
 
-        connect_button = Gtk.Button.new_with_label("Connect")
+        self.connect_button = Gtk.Button.new_with_label("Connect")
         self.status_text = Gtk.Label.new('Disconnected')
-        self.status_text.set_size_request(170, -1)
+        self.status_text.set_width_chars(30)
+        self.status_text.set_line_wrap(True)
 
-        connect_button.connect('clicked', self.toggle_connection)
+        self.connect_button.connect('clicked', self.toggle_connection)
         
-        layout_grid.attach(connect_button, 0, 0, 1, 1)
+        layout_grid.attach(self.connect_button, 0, 0, 1, 1)
         layout_grid.attach(self.status_text, 1, 0, 1, 1)
 
         helper_label = Gtk.Label.new("Select a product below for Selma testing")
@@ -107,17 +108,32 @@ class LaunchpadWindow(Gtk.Window):
 
         estop_button.connect('clicked', self.do_estop)
     
+    def check_connected(self) -> bool:
+        if self.selma.port_open:
+            self.connect_button.set_label("Disconnect")
+            self.status_text.set_label(
+                f'Connected to port {self.selma.serial_port.port}'
+            )
+        else:
+            self.connect_button.set_label("Connect")
+            self.status_text.set_label('Disconnected')
+        return self.selma.port_open
+    
     def do_test(self, widget, data):
-        self.selma.start_test(data)
+        if self.check_connected():
+            self.selma.start_test(data)
     
     def do_estop(self, widget):
-        self.selma.e_stop()
+        if self.check_connected():
+            self.selma.e_stop()
     
     def do_reset(self, widget):
-        self.selma.reset()
+        if self.check_connected():
+            self.selma.reset()
     
     def do_home(self, widget):
-        self.selma.home_axes()
+        if self.check_connected():
+            self.selma.home_axes()
 
     def toggle_connection(self, widget):
         if self.selma.port_open:
@@ -125,11 +141,7 @@ class LaunchpadWindow(Gtk.Window):
         else:
             self.selma.open_port()
         
-        if self.selma.port_open:
-            widget.set_label("Disconnect")
+        if not self.check_connected():
             self.status_text.set_label(
-                f'Connected to port {self.selma.serial_port.port}'
+                f'Error: Could not connect to port on {self.selma.serial_port.port}!'
             )
-        else:
-            widget.set_label("Connect")
-            self.status_text.set_label('Disconnected')
