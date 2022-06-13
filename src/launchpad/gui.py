@@ -85,6 +85,10 @@ class LaunchpadWindow(Gtk.Window):
             estop_button.get_style_context(),
             'destructive-action'
         )
+        for child in estop_button.get_children():
+            child.set_markup(
+                '<span weight="heavy" size="350%">STOP</span>'
+            )
 
         layout_grid.attach(helper_label, 0, 1, 2, 1)
         layout_grid.attach(launch_button, 0, 2, 1, 1)
