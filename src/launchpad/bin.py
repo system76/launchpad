@@ -72,3 +72,21 @@ def setup():
             'dialout'
         ]
     )
+
+def update():
+    print('Attempting to update Launchpad...\n\n')
+    try:
+        subprocess.run(
+            [
+                'pkexec',
+                'pip3',
+                'install',
+                '--upgrade',
+                'git+https://github.com/system76/launchpad'
+            ],
+            check=True
+        )
+        print('Launchpad update successful! :D')
+    except subprocess.CalledProcessError:
+        print('Could not update Launchpad! :(')
+    
