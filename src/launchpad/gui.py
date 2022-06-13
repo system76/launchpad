@@ -53,10 +53,12 @@ class LaunchpadWindow(Gtk.Window):
         layout_grid.props.margin = 36
         layout_grid.set_row_spacing(6)
         layout_grid.set_column_spacing(6)
+        layout_grid.set_column_homogeneous(True)
         self.add(layout_grid)
 
         connect_button = Gtk.Button.new_with_label("Connect")
         self.status_text = Gtk.Label.new('Disconnected')
+        self.status_text.set_size_request(170, -1)
 
         connect_button.connect('clicked', self.toggle_connection)
         
