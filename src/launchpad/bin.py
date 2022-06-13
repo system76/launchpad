@@ -50,7 +50,7 @@ def setup():
             'pkexec',
             'mv',
             '/usr/lib/udev/rules.d/85-brltty.rules',
-            '/usr/lib/udev/rules.d/85-brltty.disabled'
+            '/usr/lib/udev/rules.d/85-brltty.rules.disabled'
         ]
     )
 
