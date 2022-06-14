@@ -8,13 +8,14 @@ Launch keyboard QC tester.
 Easiest installation is via `pip` from git:
 
 ```shell
+sudo apt install python3-pip python3-serial
 sudo pip3 install git+https://github.com/system76/launchpad
 ```
 
 Afterwards, set up the udev rules and Desktop file:
 
 ```shell
-~/.local/bin/launchpad_setup
+/usr/local/bin/launchpad_setup
 ```
 
 You will be prompted several times for an authentication password. A reboot may
