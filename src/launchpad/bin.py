@@ -86,7 +86,7 @@ def update():
             ],
             check=True
         )
-        print('Launchpad update successful! :D')
+        print('\n\nLaunchpad update successful! :D\n\n')
     except subprocess.CalledProcessError:
-        print('Could not update Launchpad! :(')
+        print('\n\nCould not update Launchpad! :(\n\n')
     
