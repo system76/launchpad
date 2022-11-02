@@ -71,6 +71,11 @@ class LaunchpadWindow(Gtk.Window):
         launch_button = Gtk.Button.new_with_label("Launch")
         lite_button = Gtk.Button.new_with_label("Launch Lite")
         heavy_button = Gtk.Button.new_with_label("Launch Heavy")
+        custom_button = Gtk.FileChooserButton.new(
+            'Custom G-code',
+            Gtk.FileChooserAction.OPEN
+        )
+        custom_button.set_hexpand(True)
         heavy_button.set_sensitive(False)
 
         for button in (launch_button, lite_button, heavy_button):
@@ -90,10 +95,15 @@ class LaunchpadWindow(Gtk.Window):
                 '<span weight="heavy" size="350%">STOP</span>'
             )
 
+        custom_box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 6)
+        custom_label = Gtk.Label.new('Custom G-Code:')
+        custom_box.add(custom_label)
+        custom_box.add(custom_button)
         layout_grid.attach(helper_label, 0, 1, 2, 1)
         layout_grid.attach(launch_button, 0, 2, 1, 1)
         layout_grid.attach(lite_button, 1, 2, 1, 1)
         layout_grid.attach(heavy_button, 0, 3, 1, 1)
+        layout_grid.attach(custom_box, 1, 3, 1, 1)
 
         layout_grid.attach(estop_button, 0, 4, 2, 1)
 
