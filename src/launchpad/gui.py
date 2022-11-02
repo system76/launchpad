@@ -52,6 +52,8 @@ class LaunchpadWindow(Gtk.Window):
 
         self.connect('destroy', Gtk.main_quit)
 
+        self.gcode_path.mkdir(exist_ok=True)
+
         self.selma = Selma()
         self.set_title(f'Launchpad v{launchpad_version}')
         
