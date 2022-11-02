@@ -41,8 +41,14 @@ from . import data
 
 class LaunchpadWindow(Gtk.Window):
 
+    home_folder = Path.home()
+    gcode_path = home_folder / 'Selma'
+
     def __init__(self) -> None:
         super().__init__()
+        self.launch_path = self.gcode_path / 'launch.gcode'
+        self.lite_path = self.gcode_path / 'launch_lite.gcode'
+        self.heavy_path = self.gcode_path / 'launch_heavy.gcode'
 
         self.connect('destroy', Gtk.main_quit)
 
@@ -69,15 +75,32 @@ class LaunchpadWindow(Gtk.Window):
         helper_label = Gtk.Label.new("Select a product below for Selma testing")
 
         launch_button = Gtk.Button.new_with_label("Launch")
+        launch_button.file = self.launch_path
+        launch_button.gcode = ''
+        launch_button.set_sensitive(self.launch_path.exists())
         lite_button = Gtk.Button.new_with_label("Launch Lite")
+        lite_button.file = self.lite_path
+        lite_button.gcode = ''
+        lite_button.set_sensitive(self.lite_path.exists())
         heavy_button = Gtk.Button.new_with_label("Launch Heavy")
-        heavy_button.set_sensitive(False)
+        heavy_button.file = self.heavy_path
+        heavy_button.gcode = ''
+        heavy_button.set_sensitive(self.heavy_path.exists())
+        custom_button = Gtk.FileChooserButton.new(
+            'Custom G-code',
+            Gtk.FileChooserAction.OPEN
+        )
+        custom_button.set_hexpand(True)
 
         for button in (launch_button, lite_button, heavy_button):
             Gtk.StyleContext.add_class(
                 button.get_style_context(),
                 'suggested-action'
             )
+            if button.file.exists():
+                button.set_sensitive(True)
+                with open(button.file, mode='r') as gcode_file:
+                    button.gcode = ''.join(gcode_file.readlines())
 
         estop_button = Gtk.Button.new_with_label("STOP")
         estop_button.set_size_request(-1, 76)
@@ -90,10 +113,15 @@ class LaunchpadWindow(Gtk.Window):
                 '<span weight="heavy" size="350%">STOP</span>'
             )
 
+        custom_box = Gtk.Box.new(Gtk.Orientation.HORIZONTAL, 6)
+        custom_label = Gtk.Label.new('Custom G-Code:')
+        custom_box.add(custom_label)
+        custom_box.add(custom_button)
         layout_grid.attach(helper_label, 0, 1, 2, 1)
         layout_grid.attach(launch_button, 0, 2, 1, 1)
         layout_grid.attach(lite_button, 1, 2, 1, 1)
         layout_grid.attach(heavy_button, 0, 3, 1, 1)
+        layout_grid.attach(custom_box, 1, 3, 1, 1)
 
         layout_grid.attach(estop_button, 0, 4, 2, 1)
 
@@ -107,8 +135,10 @@ class LaunchpadWindow(Gtk.Window):
 
         self.show_all()
 
-        launch_button.connect('clicked', self.do_test, data.launch_testing_code)
-        lite_button.connect('clicked', self.do_test, data.launch_testing_code)
+        launch_button.connect('clicked', self.do_test)
+        lite_button.connect('clicked', self.do_test)
+        heavy_button.connect('clicked', self.do_test)
+        custom_button.connect('file-set', self.do_custom)
 
         estop_button.connect('clicked', self.do_estop)
     
@@ -123,9 +153,17 @@ class LaunchpadWindow(Gtk.Window):
             self.status_text.set_label('Disconnected')
         return self.selma.port_open
     
-    def do_test(self, widget, data):
+    def do_custom(self, button):
+        button.file = Path(button.get_filename())
+        print(f'Loading custom gcode from {button.file}')
+        with open(button.file, mode='r') as gcode_file:
+            button.gcode = ''.join(gcode_file.readlines())
+        self.do_test(button)
+    
+    def do_test(self, button):
+        print(f'Sending G-code:\n{button.gcode}')
         if self.check_connected():
-            self.selma.start_test(data)
+            self.selma.start_test(button.gcode)
     
     def do_estop(self, widget):
         if self.check_connected():
