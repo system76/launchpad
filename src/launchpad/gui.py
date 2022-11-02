@@ -138,6 +138,7 @@ class LaunchpadWindow(Gtk.Window):
         launch_button.connect('clicked', self.do_test)
         lite_button.connect('clicked', self.do_test)
         heavy_button.connect('clicked', self.do_test)
+        custom_button.connect('file-set', self.do_custom)
 
         estop_button.connect('clicked', self.do_estop)
     
@@ -151,6 +152,13 @@ class LaunchpadWindow(Gtk.Window):
             self.connect_button.set_label("Connect")
             self.status_text.set_label('Disconnected')
         return self.selma.port_open
+    
+    def do_custom(self, button):
+        button.file = Path(button.get_filename())
+        print(f'Loading custom gcode from {button.file}')
+        with open(button.file, mode='r') as gcode_file:
+            button.gcode = ''.join(gcode_file.readlines())
+        self.do_test(button)
     
     def do_test(self, button):
         print(f'Sending G-code:\n{button.gcode}')
